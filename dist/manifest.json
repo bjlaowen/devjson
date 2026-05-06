@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "DevJSON",
   "version": "1.0.0",
-  "description": "JSON 格式化、路径提取、Diff，以及生成 Go / Proto / TypeScript / Java / C# / Python 数据结构，开发者必备转换工具",
+  "description": "JSON 格式化、Path 提取、Diff，以及 JSON 与 Go / Proto / TypeScript / Java / C# / Python 数据模型的快速互转",
   "action": {
     "default_title": "DevJSON",
     "default_icon": {

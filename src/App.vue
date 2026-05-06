@@ -3,19 +3,24 @@
     <header class="app-header">
       <div>
         <div class="brand">DevJSON</div>
-        <div class="subtitle">程序员 JSON / Go / Proto 转换插件</div>
+        <div class="subtitle">JSON ↔ Go / Proto / TS / Java / C# / Python</div>
       </div>
     </header>
 
     <nav class="tabs">
-      <button
-        v-for="tab in tabs"
-        :key="tab.key"
-        :class="['tab-btn', { active: currentTool === tab.key }]"
-        @click="switchTool(tab.key)"
-      >
-        {{ tab.name }}
-      </button>
+      <div v-for="group in tabGroups" :key="group.label" class="tab-card">
+        <span class="tab-card-title">{{ group.label }}</span>
+        <div class="tab-card-body">
+          <button
+            v-for="tab in group.tabs"
+            :key="tab.key"
+            :class="['tab-btn', { active: currentTool === tab.key }]"
+            @click="switchTool(tab.key)"
+          >
+            {{ tab.name }}
+          </button>
+        </div>
+      </div>
     </nav>
 
     <section class="toolbar">
@@ -100,18 +105,33 @@ import { computed, defineComponent, h, onMounted, ref } from 'vue'
 
 const HISTORY_KEY = 'devjson_history_v2'
 
-const tabs = [
-  { key: 'format', name: '格式化' },
-  { key: 'path', name: '路径提取' },
-  { key: 'go', name: 'JSON转GoStruct' },
-  { key: 'proto', name: 'JSON转Proto' },
-  { key: 'goReverse', name: 'GoStruct转JSON' },
-  { key: 'protoReverse', name: 'Proto转JSON' },
-  { key: 'diff', name: 'JSON Diff' },
-  { key: 'ts', name: 'JSON转TS Interface' },
-  { key: 'java', name: 'JSON转Java Class' },
-  { key: 'csharp', name: 'JSON转C# Model' },
-  { key: 'python', name: 'JSON转Python Dataclass' }
+const tabGroups = [
+  {
+    label: '基础工具',
+    tabs: [
+      { key: 'format', name: '格式化' },
+      { key: 'path', name: '路径提取' },
+      { key: 'diff', name: 'JSON Diff' }
+    ]
+  },
+  {
+    label: '模型转换',
+    tabs: [
+      { key: 'go', name: 'Go Struct' },
+      { key: 'proto', name: 'Proto' },
+      { key: 'ts', name: 'TypeScript' },
+      { key: 'java', name: 'Java' },
+      { key: 'csharp', name: 'C#' },
+      { key: 'python', name: 'Python' }
+    ]
+  },
+  {
+    label: '反转工具',
+    tabs: [
+      { key: 'goReverse', name: 'Go转JSON' },
+      { key: 'protoReverse', name: 'Proto转JSON' }
+    ]
+  }
 ]
 
 const currentTool = ref('format')
@@ -952,33 +972,59 @@ html, body { margin: 0; padding: 0; height: 100%; }
 .tabs {
   flex-shrink: 0;
   display: flex;
-  gap: 4px;
-  padding: 10px 16px 0;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  padding: 14px 16px 12px;
   background: #fff;
-  overflow-x: auto;
-  scrollbar-width: none;
+  border-bottom: 1px solid #eef2f7;
 }
-.tabs::-webkit-scrollbar { display: none; }
+
+.tab-card {
+  position: relative;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 10px 8px;
+}
+
+.tab-card-title {
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  background: #fff;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.tab-card-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
 
 .tab-btn {
-  padding: 8px 12px;
+  padding: 5px 10px;
   border: 0;
-  border-bottom: 3px solid transparent;
+  border-radius: 6px;
   background: transparent;
   color: #475569;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
   font-size: 13px;
 }
-.tab-btn.active { color: #4f46e5; border-bottom-color: #4f46e5; }
+.tab-btn:hover { background: #f1f5f9; color: #4f46e5; border-color: transparent; }
+.tab-btn.active { background: #eef2ff; color: #4f46e5; }
 
 .toolbar {
   flex-shrink: 0;
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  padding: 10px 16px;
+  padding: 8px 16px;
   background: #fff;
   border-bottom: 1px solid #eef2f7;
 }
